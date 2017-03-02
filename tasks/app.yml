@@ -1,0 +1,17 @@
+- name: Clone git repository
+  git:
+    dest: /var/www/eAgriservicomm
+    repo: https://github.com/babarindeos/eAgriservicomm.git
+    update: yes
+  become: yes
+
+- name: Copy sql Script
+  template:
+    src: agriservicomm_sql.sql
+    dest: /tmp/agriservicomm_sql.sql
+
+- name: Import agriservicomm_sql.sql
+  mysql_db:
+    state: import
+    name: agriservicomm
+    target: /tmp/agriservicomm_sql.sql

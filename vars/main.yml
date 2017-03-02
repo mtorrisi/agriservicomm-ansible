@@ -1,0 +1,23 @@
+---
+# vars file for agriservicomm-ansible
+open_ports:
+  - 80
+  - 443
+prerequisite_packages:
+  - unzip
+  - git
+apache_vhosts:
+  - {servername: "agriservicomm.sci-gaia.eu", documentroot: "/var/www/eAgriservicomm"}
+apache_remove_default_vhost: true
+php_packages: libapache2-mod-php5
+php_mysql_package: php5-mysql
+mysql_root_password: my-super-secret-fake-password
+mysql_databases:
+  - name: agriservicomm
+    encoding: latin1
+    collation: latin1_general_ci
+mysql_users:
+  - name: agriservicomm
+    host: "localhost"
+    password: agriservicomm
+    priv: "agriservicomm.*:ALL"

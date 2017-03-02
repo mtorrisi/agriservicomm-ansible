@@ -1,0 +1,15 @@
+---
+- hosts: agriservicomm
+  become: yes
+  vars_files:
+    - vars/main.yml
+  pre_tasks:
+    - include: tasks/prerequisites.yml
+    - include: tasks/firewall.yml
+  roles:
+    - geerlingguy.apache
+    - geerlingguy.php
+    - geerlingguy.mysql
+    - geerlingguy.php-mysql
+  post_tasks:
+    - include: tasks/app.yml
