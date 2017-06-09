@@ -1,0 +1,67 @@
+---
+# Configure shibboleth
+#
+- name: Check shibboleth configuration file exists
+  stat:
+    path: /etc/shibboleth/shibboleth2.xml.orig
+  register: shibboleth2_stat
+
+- name: Backup shibboleth configuration file
+  command: mv /etc/shibboleth/shibboleth2.xml /etc/shibboleth/shibboleth2.xml.orig
+  when: shibboleth2_stat.stat.exists == False
+
+- name: Copy shibboleth2 file
+  template:
+    src: shibboleth2.xml
+    dest: /etc/shibboleth/
+
+- name: Check shibboleth configuration file exists
+  stat:
+    path: /etc/shibboleth/attribute-map.xml.orig
+  register: attribute_stat
+
+- name: Backup attribute-map file
+  command: mv /etc/shibboleth/attribute-map.xml /etc/shibboleth/attribute-map.xml.orig
+  when: attribute_stat.stat.exists == False
+
+- name: Copy attribute-map file
+  template:
+    src: attribute-map.xml
+    dest: /etc/shibboleth/
+
+- name: Copy sp-cert file
+  template:
+    src: sp-cert.pem
+    dest: /etc/shibboleth/sp-cert.pem
+    owner: _shibd
+    group: _shibd
+
+- name: Copy sp-key file
+  template:
+    src: sp-key.pem
+    dest: /etc/shibboleth/sp-key.pem
+    owner: _shibd
+    group: _shibd
+    mode: 0600
+
+- name: Check saml folder exists
+  stat:
+    path: /var/www/saml
+  register: saml_stat
+
+- name: Create folder, if it doesn't exist
+  file:
+    path: /var/www/saml
+    state: directory
+    mode: 0755
+  when: saml_stat.stat.exists == False
+
+- name: Copy Metadata file
+  template:
+    src: metadata.xml
+    dest: /var/www/saml/
+
+- name: Restart shibd service
+  service:
+    name: shibd
+    state: restarted

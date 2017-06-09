@@ -1,6 +1,7 @@
 ---
 - name: Open ports
   ufw:
+    state: enabled
     rule: allow
     port: "{{ item }}"
     proto: tcp

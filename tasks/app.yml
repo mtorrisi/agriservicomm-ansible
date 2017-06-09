@@ -1,7 +1,7 @@
 - name: Clone git repository
   git:
     dest: /var/www/eAgriservicomm
-    repo: https://github.com/babarindeos/eAgriservicomm.git
+    repo: https://github.com/sci-gaia/eAgriservicomm.git
     update: yes
   become: yes
 

@@ -13,3 +13,4 @@
     - geerlingguy.php-mysql
   post_tasks:
     - include: tasks/app.yml
+    - include: tasks/shib-conf.yml

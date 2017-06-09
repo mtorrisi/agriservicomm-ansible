@@ -4,3 +4,8 @@
     update_cache: yes
     state: "latest"
   with_items: "{{ prerequisite_packages }}"
+
+- file:
+    path: /var/www/eAgriservicomm
+    state: directory
+    mode: 0755
